@@ -8,6 +8,13 @@
 %option noyywrap
 
 %%
+
+"sqrt"  { return SQRT; }
+"log"   { return LOG; }
+"sin"   { return SIN; }
+"cos"   { return COS; }
+"tan"   { return TAN; }
+
 [0-9]+(\.[0-9]*)?  { yylval.d = atof(yytext); return NUMBER; }
 [a-zA-Z_][a-zA-Z0-9_]* { yylval.s = lookup(yytext); return NAME; }
 [+\-*/=(){};,]      { return yytext[0]; }
@@ -15,4 +22,4 @@
 \n                 { return EOL; }
 .                  { printf("Unexpected character: %s\n", yytext); }
 
-%%
+%%  

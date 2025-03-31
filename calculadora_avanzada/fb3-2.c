@@ -1,7 +1,10 @@
 #include "fb3-2.h"
 #include <string.h>
+#include <math.h>
 
 #define NSYMS 100
+#define M_PI 3.14159265358979323846
+#define DEG_TO_RAD(x) ((x) * M_PI / 180.0)
 static struct symbol symtab[NSYMS];
 
 struct ast *newast(int nodetype, struct ast *l, struct ast *r) {
@@ -50,6 +53,19 @@ struct ast *newasgn(struct symbol *s, struct ast *v) {
     return (struct ast *)a;
 }
 
+struct ast *newfunc(int functype, struct ast *l) {
+    struct fncall *a = malloc(sizeof(struct fncall));
+    if (!a) {
+        yyerror("Out of memory");
+        exit(1);
+    }
+    a->nodetype = 'F';
+    a->functype = functype;
+    a->l = l;
+    return (struct ast *)a;
+}
+
+
 double eval(struct ast *a) {
     double v;
     switch (a->nodetype) {
@@ -66,7 +82,19 @@ double eval(struct ast *a) {
             break;
         case 'N': v = ((struct symref *)a)->s->value; break;
         case '=': v = ((struct symasgn *)a)->s->value = eval(((struct symasgn *)a)->v); break;
-        
+        case 'F': {
+            struct fncall *f = (struct fncall *)a;
+            double operand = eval(f->l);
+            switch (f->functype){
+                case 'S': v = sqrt(operand); break;
+                case 'L': v = log10(operand); break;
+                case 's': v = sin(DEG_TO_RAD(operand)); break;
+                case 'c': v = cos(DEG_TO_RAD(operand)); break;
+                case 't': v = tan(DEG_TO_RAD(operand)); break;
+                default: yyerror("funcion desconocida"); v = 0;
+            }
+            break;
+        }
         default: yyerror("Unknown node type"); v = 0;
     }
     return v;

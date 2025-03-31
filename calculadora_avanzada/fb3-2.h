@@ -45,6 +45,13 @@ struct symlist {
     struct symlist *next;
 };
 
+struct fncall {
+    int nodetype;  /* 'F' */
+    int functype; 
+    struct ast *l;
+};
+
+
 /* Funciones del AST */
 struct ast *newast(int nodetype, struct ast *l, struct ast *r);
 struct ast *newnum(double d);
@@ -53,6 +60,7 @@ struct ast *newasgn(struct symbol *s, struct ast *v);
 double eval(struct ast *);
 void treefree(struct ast *);
 void yyerror(const char *s);
+struct ast *newfunc(int functype, struct ast *l);
 struct symbol *lookup(char *sym);
 
 
