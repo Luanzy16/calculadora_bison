@@ -64,7 +64,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 14 "fb3-1.y"
+#line 15 "fb3-1.y"
 
     struct ast *a;
     double d;

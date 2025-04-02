@@ -71,6 +71,7 @@
 
     #include <stdio.h>
     #include <stdlib.h>
+    #include <time.h>
     #include "fb3-1.h"
     #include "fb3-1.tab.h"
 
@@ -79,7 +80,7 @@
     int yylex(void);
     void yyerror(const char *s, ...);
 
-#line 83 "fb3-1.tab.c"
+#line 84 "fb3-1.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -506,8 +507,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    29,    29,    30,    37,    38,    39,    43,    44,    45,
-      49
+       0,    30,    30,    31,    38,    39,    40,    44,    45,    46,
+      50
 };
 #endif
 
@@ -1071,58 +1072,58 @@ yyreduce:
   switch (yyn)
     {
   case 3: /* input: input exp EOL  */
-#line 30 "fb3-1.y"
+#line 31 "fb3-1.y"
                     {
         printf("Result: %f\n", eval((yyvsp[-1].a)));
         treefree((yyvsp[-1].a));
     }
-#line 1080 "fb3-1.tab.c"
+#line 1081 "fb3-1.tab.c"
     break;
 
   case 4: /* exp: term  */
-#line 37 "fb3-1.y"
+#line 38 "fb3-1.y"
                   { (yyval.a) = (yyvsp[0].a); }
-#line 1086 "fb3-1.tab.c"
+#line 1087 "fb3-1.tab.c"
     break;
 
   case 5: /* exp: exp '+' term  */
-#line 38 "fb3-1.y"
+#line 39 "fb3-1.y"
                    { (yyval.a) = newast('+', (yyvsp[-2].a), (yyvsp[0].a)); }
-#line 1092 "fb3-1.tab.c"
+#line 1093 "fb3-1.tab.c"
     break;
 
   case 6: /* exp: exp '-' term  */
-#line 39 "fb3-1.y"
+#line 40 "fb3-1.y"
                    { (yyval.a) = newast('-', (yyvsp[-2].a), (yyvsp[0].a)); }
-#line 1098 "fb3-1.tab.c"
+#line 1099 "fb3-1.tab.c"
     break;
 
   case 7: /* term: factor  */
-#line 43 "fb3-1.y"
+#line 44 "fb3-1.y"
                   { (yyval.a) = (yyvsp[0].a); }
-#line 1104 "fb3-1.tab.c"
+#line 1105 "fb3-1.tab.c"
     break;
 
   case 8: /* term: term '*' factor  */
-#line 44 "fb3-1.y"
+#line 45 "fb3-1.y"
                       { (yyval.a) = newast('*', (yyvsp[-2].a), (yyvsp[0].a)); }
-#line 1110 "fb3-1.tab.c"
+#line 1111 "fb3-1.tab.c"
     break;
 
   case 9: /* term: term '/' factor  */
-#line 45 "fb3-1.y"
+#line 46 "fb3-1.y"
                       { (yyval.a) = newast('/', (yyvsp[-2].a), (yyvsp[0].a)); }
-#line 1116 "fb3-1.tab.c"
+#line 1117 "fb3-1.tab.c"
     break;
 
   case 10: /* factor: NUMBER  */
-#line 49 "fb3-1.y"
+#line 50 "fb3-1.y"
                  { (yyval.a) = newnum((yyvsp[0].d)); }
-#line 1122 "fb3-1.tab.c"
+#line 1123 "fb3-1.tab.c"
     break;
 
 
-#line 1126 "fb3-1.tab.c"
+#line 1127 "fb3-1.tab.c"
 
       default: break;
     }
@@ -1315,7 +1316,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 52 "fb3-1.y"
+#line 53 "fb3-1.y"
 
 
 void yyerror(const char *s, ...) {
@@ -1324,6 +1325,16 @@ void yyerror(const char *s, ...) {
 
 
 int main() {
+    clock_t start, end;
+    double cpu_time_used;
+
     printf("Enter an expression:\n");
-    return yyparse();
+    start = clock();
+    yyparse();
+    end = clock();
+
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Execution time: %f seconds\n", cpu_time_used);
+
+    return 0;
 }

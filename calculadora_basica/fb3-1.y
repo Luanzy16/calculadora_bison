@@ -2,6 +2,7 @@
 %{
     #include <stdio.h>
     #include <stdlib.h>
+    #include <time.h>
     #include "fb3-1.h"
     #include "fb3-1.tab.h"
 
@@ -57,6 +58,16 @@ void yyerror(const char *s, ...) {
 
 
 int main() {
+    clock_t start, end;
+    double cpu_time_used;
+
     printf("Enter an expression:\n");
-    return yyparse();
+    start = clock();
+    yyparse();
+    end = clock();
+
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Execution time: %f seconds\n", cpu_time_used);
+
+    return 0;
 }
