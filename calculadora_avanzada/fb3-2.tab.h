@@ -56,12 +56,16 @@ extern int yydebug;
     YYUNDEF = 257,                 /* "invalid token"  */
     NUMBER = 258,                  /* NUMBER  */
     NAME = 259,                    /* NAME  */
-    EOL = 260,                     /* EOL  */
-    SQRT = 261,                    /* SQRT  */
-    LOG = 262,                     /* LOG  */
-    SIN = 263,                     /* SIN  */
-    COS = 264,                     /* COS  */
-    TAN = 265                      /* TAN  */
+    FUNC = 260,                    /* FUNC  */
+    EOL = 261,                     /* EOL  */
+    IF = 262,                      /* IF  */
+    THEN = 263,                    /* THEN  */
+    ELSE = 264,                    /* ELSE  */
+    WHILE = 265,                   /* WHILE  */
+    DO = 266,                      /* DO  */
+    LET = 267,                     /* LET  */
+    CMP = 268,                     /* CMP  */
+    UMINUS = 269                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -75,8 +79,10 @@ union YYSTYPE
     struct ast *a;
     double d;
     struct symbol *s; 
+    struct symlist *sl;
+    int fn;
 
-#line 80 "fb3-2.tab.h"
+#line 86 "fb3-2.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
