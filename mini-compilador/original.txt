@@ -1,0 +1,3 @@
+let avg(a,b) = (a + b)/2;
+let sq(n) = e = 1; t = n; while abs(t - e) > 0.001 do t = (n / e); e = avg(e, t);; e;
+sq(10)

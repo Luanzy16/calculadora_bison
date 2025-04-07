@@ -11,7 +11,7 @@
 %union {
     struct ast *a;
     double d;
-    struct symbol *s;
+    struct symbol *s; 
     struct symlist *sl;
     int fn;
 }
@@ -24,11 +24,10 @@
 %type <a> exp stmt list explist
 %type <sl> symlist
 
-%token <fn> CMP
-%nonassoc CMP
+%nonassoc <fn> CMP
 %left '+' '-'
 %left '*' '/'
-%right '='
+%right '='  /* Asignaciones tienen menor precedencia */
 %nonassoc '|' UMINUS
 
 %start calclist
@@ -44,45 +43,45 @@ calclist:
     ;
 
 exp:
-      exp CMP exp         { $$ = newcmp($2, $1, $3); }
-    | exp '+' exp         { $$ = newast('+', $1, $3); }
-    | exp '-' exp         { $$ = newast('-', $1, $3); }
-    | exp '*' exp         { $$ = newast('*', $1, $3); }
-    | exp '/' exp         { $$ = newast('/', $1, $3); }
-    | '(' exp ')'         { $$ = $2; }
-    | '-' exp %prec UMINUS{ $$ = newast('M', $2, NULL); }
-    | NUMBER              { $$ = newnum($1); }
-    | NAME                { $$ = newref($1); }
-    | NAME '=' exp        { $$ = newasgn($1, $3); }
+      exp CMP exp     { $$ = newcmp($2, $1, $3); }
+    | exp '+' exp     { $$ = newast('+', $1, $3); }
+    | exp '-' exp     { $$ = newast('-', $1, $3); }
+    | exp '*' exp     { $$ = newast('*', $1, $3); }
+    | exp '/' exp     { $$ = newast('/', $1, $3); }
+    | '(' exp ')'     { $$ = $2; }
+    | '-' exp %prec UMINUS { $$ = newast('M', $2, NULL); }
+    | NUMBER          { $$ = newnum($1); }
+    | NAME            { $$ = newref($1); }
+    | NAME '=' exp { $$ = newasgn($1, $3); }
     | FUNC '(' explist ')' { $$ = newfunc($1, $3); }
     | NAME '(' explist ')' { $$ = newcall($1, $3); }
     ;
 
 explist: 
-      exp                 { $$ = $1; }
-    | exp ',' explist     { $$ = newast('L', $1, $3); }
+      exp { $$ = $1; }
+    | exp ',' explist { $$ = newast('L', $1, $3); }
     ;
 
 symlist: 
-      NAME                { $$ = newsymlist($1, NULL); }
-    | NAME ',' symlist    { $$ = newsymlist($1, $3); }
+      NAME { $$ = newsymlist($1, NULL); }
+    | NAME ',' symlist { $$ = newsymlist($1, $3); }
     ;
 
 stmt:
-      IF exp THEN list           { $$ = newflow('I', $2, $4, NULL); }
+      IF exp THEN list { $$ = newflow('I', $2, $4, NULL); }
     | IF exp THEN list ELSE list { $$ = newflow('I', $2, $4, $6); }
-    | WHILE exp DO list          { $$ = newflow('W', $2, $4, NULL); }
+    | WHILE exp DO list { $$ = newflow('W', $2, $4, NULL); }
     | exp
     ;
 
 list: 
-      /* vacío */                { $$ = NULL; }
-    | stmt ';' list              { $$ = $3 == NULL ? $1 : newast('L', $1, $3); }
+      /* vacío */ { $$ = NULL; }
+    | stmt ';' list { $$ = $3 == NULL ? $1 : newast('L', $1, $3); }
     ;
 
 %%
 int main() {
-    printf("Enter an expression:\n> ");
+    printf("Enter an expression:\n");
     return yyparse();
 }
 

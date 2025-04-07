@@ -78,7 +78,7 @@ union YYSTYPE
 
     struct ast *a;
     double d;
-    struct symbol *s;
+    struct symbol *s; 
     struct symlist *sl;
     int fn;
 

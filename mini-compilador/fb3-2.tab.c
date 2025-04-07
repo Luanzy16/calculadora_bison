@@ -523,9 +523,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    36,    36,    38,    39,    43,    47,    48,    49,    50,
-      51,    52,    53,    54,    55,    56,    57,    58,    62,    63,
-      67,    68,    72,    73,    74,    75,    79,    80
+       0,    35,    35,    37,    38,    42,    46,    47,    48,    49,
+      50,    51,    52,    53,    54,    55,    56,    57,    61,    62,
+      66,    67,    71,    72,    73,    74,    78,    79
 };
 #endif
 
@@ -1126,13 +1126,13 @@ yyreduce:
   switch (yyn)
     {
   case 3: /* calclist: calclist stmt EOL  */
-#line 38 "fb3-2.y"
+#line 37 "fb3-2.y"
                         { printf("= %4.4g\n> ", eval((yyvsp[-1].a))); treefree((yyvsp[-1].a)); }
 #line 1132 "fb3-2.tab.c"
     break;
 
   case 4: /* calclist: calclist LET NAME '(' symlist ')' '=' list EOL  */
-#line 39 "fb3-2.y"
+#line 38 "fb3-2.y"
                                                      {
         dodef((yyvsp[-6].s), (yyvsp[-4].sl), (yyvsp[-1].a));
         printf("Defined %s\n> ", (yyvsp[-6].s)->name);
@@ -1141,134 +1141,134 @@ yyreduce:
     break;
 
   case 5: /* calclist: calclist error EOL  */
-#line 43 "fb3-2.y"
+#line 42 "fb3-2.y"
                          { yyerrok; printf("> "); }
 #line 1147 "fb3-2.tab.c"
     break;
 
   case 6: /* exp: exp CMP exp  */
-#line 47 "fb3-2.y"
-                          { (yyval.a) = newcmp((yyvsp[-1].fn), (yyvsp[-2].a), (yyvsp[0].a)); }
+#line 46 "fb3-2.y"
+                      { (yyval.a) = newcmp((yyvsp[-1].fn), (yyvsp[-2].a), (yyvsp[0].a)); }
 #line 1153 "fb3-2.tab.c"
     break;
 
   case 7: /* exp: exp '+' exp  */
-#line 48 "fb3-2.y"
-                          { (yyval.a) = newast('+', (yyvsp[-2].a), (yyvsp[0].a)); }
+#line 47 "fb3-2.y"
+                      { (yyval.a) = newast('+', (yyvsp[-2].a), (yyvsp[0].a)); }
 #line 1159 "fb3-2.tab.c"
     break;
 
   case 8: /* exp: exp '-' exp  */
-#line 49 "fb3-2.y"
-                          { (yyval.a) = newast('-', (yyvsp[-2].a), (yyvsp[0].a)); }
+#line 48 "fb3-2.y"
+                      { (yyval.a) = newast('-', (yyvsp[-2].a), (yyvsp[0].a)); }
 #line 1165 "fb3-2.tab.c"
     break;
 
   case 9: /* exp: exp '*' exp  */
-#line 50 "fb3-2.y"
-                          { (yyval.a) = newast('*', (yyvsp[-2].a), (yyvsp[0].a)); }
+#line 49 "fb3-2.y"
+                      { (yyval.a) = newast('*', (yyvsp[-2].a), (yyvsp[0].a)); }
 #line 1171 "fb3-2.tab.c"
     break;
 
   case 10: /* exp: exp '/' exp  */
-#line 51 "fb3-2.y"
-                          { (yyval.a) = newast('/', (yyvsp[-2].a), (yyvsp[0].a)); }
+#line 50 "fb3-2.y"
+                      { (yyval.a) = newast('/', (yyvsp[-2].a), (yyvsp[0].a)); }
 #line 1177 "fb3-2.tab.c"
     break;
 
   case 11: /* exp: '(' exp ')'  */
-#line 52 "fb3-2.y"
-                          { (yyval.a) = (yyvsp[-1].a); }
+#line 51 "fb3-2.y"
+                      { (yyval.a) = (yyvsp[-1].a); }
 #line 1183 "fb3-2.tab.c"
     break;
 
   case 12: /* exp: '-' exp  */
-#line 53 "fb3-2.y"
-                          { (yyval.a) = newast('M', (yyvsp[0].a), NULL); }
+#line 52 "fb3-2.y"
+                           { (yyval.a) = newast('M', (yyvsp[0].a), NULL); }
 #line 1189 "fb3-2.tab.c"
     break;
 
   case 13: /* exp: NUMBER  */
-#line 54 "fb3-2.y"
-                          { (yyval.a) = newnum((yyvsp[0].d)); }
+#line 53 "fb3-2.y"
+                      { (yyval.a) = newnum((yyvsp[0].d)); }
 #line 1195 "fb3-2.tab.c"
     break;
 
   case 14: /* exp: NAME  */
-#line 55 "fb3-2.y"
-                          { (yyval.a) = newref((yyvsp[0].s)); }
+#line 54 "fb3-2.y"
+                      { (yyval.a) = newref((yyvsp[0].s)); }
 #line 1201 "fb3-2.tab.c"
     break;
 
   case 15: /* exp: NAME '=' exp  */
-#line 56 "fb3-2.y"
-                          { (yyval.a) = newasgn((yyvsp[-2].s), (yyvsp[0].a)); }
+#line 55 "fb3-2.y"
+                   { (yyval.a) = newasgn((yyvsp[-2].s), (yyvsp[0].a)); }
 #line 1207 "fb3-2.tab.c"
     break;
 
   case 16: /* exp: FUNC '(' explist ')'  */
-#line 57 "fb3-2.y"
+#line 56 "fb3-2.y"
                            { (yyval.a) = newfunc((yyvsp[-3].fn), (yyvsp[-1].a)); }
 #line 1213 "fb3-2.tab.c"
     break;
 
   case 17: /* exp: NAME '(' explist ')'  */
-#line 58 "fb3-2.y"
+#line 57 "fb3-2.y"
                            { (yyval.a) = newcall((yyvsp[-3].s), (yyvsp[-1].a)); }
 #line 1219 "fb3-2.tab.c"
     break;
 
   case 18: /* explist: exp  */
-#line 62 "fb3-2.y"
-                          { (yyval.a) = (yyvsp[0].a); }
+#line 61 "fb3-2.y"
+          { (yyval.a) = (yyvsp[0].a); }
 #line 1225 "fb3-2.tab.c"
     break;
 
   case 19: /* explist: exp ',' explist  */
-#line 63 "fb3-2.y"
-                          { (yyval.a) = newast('L', (yyvsp[-2].a), (yyvsp[0].a)); }
+#line 62 "fb3-2.y"
+                      { (yyval.a) = newast('L', (yyvsp[-2].a), (yyvsp[0].a)); }
 #line 1231 "fb3-2.tab.c"
     break;
 
   case 20: /* symlist: NAME  */
-#line 67 "fb3-2.y"
-                          { (yyval.sl) = newsymlist((yyvsp[0].s), NULL); }
+#line 66 "fb3-2.y"
+           { (yyval.sl) = newsymlist((yyvsp[0].s), NULL); }
 #line 1237 "fb3-2.tab.c"
     break;
 
   case 21: /* symlist: NAME ',' symlist  */
-#line 68 "fb3-2.y"
-                          { (yyval.sl) = newsymlist((yyvsp[-2].s), (yyvsp[0].sl)); }
+#line 67 "fb3-2.y"
+                       { (yyval.sl) = newsymlist((yyvsp[-2].s), (yyvsp[0].sl)); }
 #line 1243 "fb3-2.tab.c"
     break;
 
   case 22: /* stmt: IF exp THEN list  */
-#line 72 "fb3-2.y"
-                                 { (yyval.a) = newflow('I', (yyvsp[-2].a), (yyvsp[0].a), NULL); }
+#line 71 "fb3-2.y"
+                       { (yyval.a) = newflow('I', (yyvsp[-2].a), (yyvsp[0].a), NULL); }
 #line 1249 "fb3-2.tab.c"
     break;
 
   case 23: /* stmt: IF exp THEN list ELSE list  */
-#line 73 "fb3-2.y"
+#line 72 "fb3-2.y"
                                  { (yyval.a) = newflow('I', (yyvsp[-4].a), (yyvsp[-2].a), (yyvsp[0].a)); }
 #line 1255 "fb3-2.tab.c"
     break;
 
   case 24: /* stmt: WHILE exp DO list  */
-#line 74 "fb3-2.y"
-                                 { (yyval.a) = newflow('W', (yyvsp[-2].a), (yyvsp[0].a), NULL); }
+#line 73 "fb3-2.y"
+                        { (yyval.a) = newflow('W', (yyvsp[-2].a), (yyvsp[0].a), NULL); }
 #line 1261 "fb3-2.tab.c"
     break;
 
   case 26: /* list: %empty  */
-#line 79 "fb3-2.y"
-                                  { (yyval.a) = NULL; }
+#line 78 "fb3-2.y"
+                   { (yyval.a) = NULL; }
 #line 1267 "fb3-2.tab.c"
     break;
 
   case 27: /* list: stmt ';' list  */
-#line 80 "fb3-2.y"
-                                 { (yyval.a) = (yyvsp[0].a) == NULL ? (yyvsp[-2].a) : newast('L', (yyvsp[-2].a), (yyvsp[0].a)); }
+#line 79 "fb3-2.y"
+                    { (yyval.a) = (yyvsp[0].a) == NULL ? (yyvsp[-2].a) : newast('L', (yyvsp[-2].a), (yyvsp[0].a)); }
 #line 1273 "fb3-2.tab.c"
     break;
 
@@ -1466,10 +1466,10 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 83 "fb3-2.y"
+#line 82 "fb3-2.y"
 
 int main() {
-    printf("Enter an expression:\n> ");
+    printf("Enter an expression:\n");
     return yyparse();
 }
 
