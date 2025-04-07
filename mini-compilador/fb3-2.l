@@ -30,8 +30,11 @@ EXP ([Ee][-+]?[0-9]+)
 "log" { yylval.fn = B_log; return FUNC; }
 "print" { yylval.fn = B_print; return FUNC; }
 
-[0-9]+"."[0-9]*{EXP}? |
-"."?[0-9]+{EXP}? { yylval.d = atof(yytext); return NUMBER; }
+[0-9]+(\.[0-9]*)?([eE][-+]?[0-9]+)? |
+\.[0-9]+([eE][-+]?[0-9]+)? {
+    yylval.d = atof(yytext);
+    return NUMBER;
+}
 
 [a-zA-Z_][a-zA-Z0-9_]* { yylval.s = lookup(yytext); return NAME; }
 [+\-*/=(){};,|]      { return yytext[0]; }

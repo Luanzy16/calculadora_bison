@@ -47,7 +47,7 @@ exp:
     | exp '-' exp     { $$ = newast('-', $1, $3); }
     | exp '*' exp     { $$ = newast('*', $1, $3); }
     | exp '/' exp     { $$ = newast('/', $1, $3); }
-    | '|' exp         { $$ = $2; }
+    | '|' exp       { $$ = newfunc(B_abs, $2); }
     | '(' exp ')'     { $$ = $2; }
     | '-' exp %prec UMINUS { $$ = newast('M', $2, NULL); }
     | NUMBER          { $$ = newnum($1); }

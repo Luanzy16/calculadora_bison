@@ -93,7 +93,8 @@ enum bifs {
     B_sqrt = 1,
     B_exp,
     B_log,
-    B_print
+    B_print,
+    B_abs
 };
 
 #endif

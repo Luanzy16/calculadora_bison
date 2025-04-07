@@ -73,10 +73,9 @@ struct ast *newcmp(int cmptype, struct ast *l, struct ast *r) {
         yyerror("Out of memory");
         exit(1);
     }
-    a->nodetype = 'C';
+    a->nodetype = cmptype; 
     a->l = l;
     a->r = r;
-    a->nodetype = cmptype; // Almacenar el tipo de comparación
     return a;
 }
 
@@ -86,7 +85,7 @@ struct ast *newcall(struct symbol *s, struct ast *l) {
         yyerror("Out of memory");
         exit(1);
     }
-    a->nodetype = 'C';
+    a->nodetype = 'U';
     a->s = s;
     a->l = l;
     return (struct ast *)a;
@@ -129,35 +128,54 @@ double eval(struct ast *a) {
     }
 
     switch (a->nodetype) {
-        case 'K': v = ((struct numval *)a)->number; break;
+        case 'K': 
+            v = ((struct numval *)a)->number; 
+            break;
 
-        case 'N': v = ((struct symref *)a)->s->value; break;
+        case 'N': 
+            v = ((struct symref *)a)->s->value; 
+            break;
 
-        case '=': v = ((struct symasgn *)a)->s->value =
-                    eval(((struct symasgn *)a)->v); break;
+        case '=': 
+            v = ((struct symasgn *)a)->s->value = eval(((struct symasgn *)a)->v); 
+            break;
 
-        case '+': v = eval(a->l) + eval(a->r); break;
-        case '-': v = eval(a->l) - eval(a->r); break;
-        case '*': v = eval(a->l) * eval(a->r); break;
-        case '/': v = eval(a->l) / eval(a->r); break;
+        case '+': 
+            v = eval(a->l) + eval(a->r); 
+            break;
 
-        case 'M': v = -eval(a->l); break;  /* menos unario */
+        case '-': 
+            v = eval(a->l) - eval(a->r); 
+            break;
 
-        case 'L': eval(a->l); v = eval(a->r); break;
+        case '*': 
+            v = eval(a->l) * eval(a->r); 
+            break;
+
+        case '/': 
+            v = eval(a->l) / eval(a->r); 
+            break;
+
+        case 'M': 
+            v = -eval(a->l); 
+            break;  /* menos unario */
+
+        case 'L': 
+            eval(a->l); 
+            v = eval(a->r); 
+            break;
 
         case 'I': 
             if (eval(((struct flow *)a)->cond) != 0) { 
-                if (((struct flow *)a)->tl) {
+                if (((struct flow *)a)->tl)
                     v = eval(((struct flow *)a)->tl);
-                } else {
+                else
                     v = 0.0; 
-                }
             } else {
-                if (((struct flow *)a)->el) {
+                if (((struct flow *)a)->el)
                     v = eval(((struct flow *)a)->el);
-                } else {
+                else
                     v = 0.0;
-                }
             }
             break;
 
@@ -174,12 +192,33 @@ double eval(struct ast *a) {
             v = callbuiltin((struct fncall *)a); 
             break;
 
-        case 'C': 
+        case 'U': 
             v = calluser((struct ufncall *)a); 
+            break;
+
+        // Comparaciones:
+        case 1: // '>'
+            v = eval(a->l) > eval(a->r);
+            break;
+        case 2: // '<'
+            v = eval(a->l) < eval(a->r);
+            break;
+        case 3: // '<>'
+            v = eval(a->l) != eval(a->r);
+            break;
+        case 4: // '=='
+            v = eval(a->l) == eval(a->r);
+            break;
+        case 5: // '>='
+            v = eval(a->l) >= eval(a->r);
+            break;
+        case 6: // '<='
+            v = eval(a->l) <= eval(a->r);
             break;
 
         default:
             printf("Internal error: bad node %c\n", a->nodetype);
+            break;
     }
 
     return v;
@@ -193,6 +232,8 @@ double callbuiltin(struct fncall *f) {
     switch (functype) {
         case B_sqrt:
             return sqrt(v);
+        case B_abs:
+            return fabs(v);
         case B_exp:
             return exp(v);
         case B_log:
