@@ -13,6 +13,7 @@ struct ast {
     int nodetype;
     struct ast *l;
     struct ast *r;
+    struct ast *fn;
 };
 
 /* Estructura para nodos con valores numéricos */
@@ -65,6 +66,13 @@ struct flow {
     struct ast *cond; /* condition */
     struct ast *tl; /* then branch or do list */
     struct ast *el; /* optional else branch */
+};
+
+struct fncmp {
+    int nodetype;        // == CMP
+    struct ast *l;
+    struct ast *r;
+    int fn;              // Código de comparación: >, <, ==, etc.
 };
 
 
