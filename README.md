@@ -1,6 +1,12 @@
 # Intérprete de Expresiones Matemáticas 
 
-Este proyecto es un **intérprete de expresiones matemáticas** basado en **Flex y Bison**, permitiendo definir y evaluar funciones de usuario como `avg(a, b) = (a + b) / 2`.  
+Este proyecto es un **intérprete de expresiones matemáticas** basado en **Flex y Bison**, permitiendo definir y evaluar funciones de usuario como `avg(a, b) = (a + b) / 2`.
+
+## integrantes 
+
+- Luis Sanchez
+- David Bermudez
+- Santiago Ospina
 
 ## 🚀 Características  
 - Evaluación de expresiones matemáticas (`+, -, *, /, |x|`).  
@@ -58,6 +64,7 @@ chmod +x calcA.sh #recuerda darle permisos
 
 ## 📌 Notas  
 - Usa `;` para separar expresiones.  
-- Presiona **Enter** después de cada línea para evaluar.  
+- Presiona **Enter** después de cada línea para evaluar. 
+- expresiones como x = (x + 1) debe tener el parenteisis
 - Para salir del intérprete, usa **Ctrl + D**.  
  
